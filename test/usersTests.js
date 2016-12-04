@@ -17,11 +17,24 @@ describe('GET /users/register', () => {
             });
     });
 
-    it('Creates new registration', () => {
-        return chai.request(app).post('/users/register')
-            .send({name: 'Paul', username: 'Paul', email: 'paul@paul.com', password: '123', password2: '123'})
+    describe('Post /users/register', () => {
+        it('Creates new registration', () => {
+            return chai.request(app).post('/users/register')
+                .send({ name: 'Paul', username: 'Paul', email: 'paul@paul.com', password: '123', password2: '123' })
+                .then((res) => {
+                    expect(res).to.redirect;
+                });
+        });
+    });
+});
+
+describe('GET /users/login', () => {
+    it('response with a login view', () => {
+        return chai.request(app).get('/users/login')
             .then((res) => {
-                expect(res).to.redirect;
+                expect(res).to.be.html;
+                expect(res).to.have.status(200);
             });
     });
+
 });

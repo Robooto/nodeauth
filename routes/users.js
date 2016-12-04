@@ -20,10 +20,11 @@ router.get('/login', (req, res, next) => {
   res.render('login', {title: 'Login'});
 });
 
-router.post('/login', passport.authenticate('local', {failureRedirect: '/users/login', failureFlash: 'Invalid username or password'}), (req, res) => {
-
-  req.flash('success', 'You are now logged in');
-  res.redirect('/');
+router.post('/login', 
+  passport.authenticate('local', {failureRedirect: '/users/login', failureFlash: 'Invalid username or password'}),
+  (req, res) => {
+    req.flash('success', 'You are now logged in');
+    res.redirect('/');
 });
 
 passport.serializeUser((user, done) => {
@@ -100,6 +101,13 @@ router.post('/register', upload.single('profileimage'),(req, res, next) => {
     res.location('/');
     res.redirect('/');
   }
+});
+
+
+router.get('/logout', (req, res) => {
+  req.logOut();
+  req.flash('success', 'You are now logged out');
+  res.redirect('/users/login');
 });
 
 module.exports = router;
